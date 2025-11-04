@@ -1,23 +1,29 @@
 <script>
 
-import NewRecipe from "@/NewRecipe.vue";
-import RecipeItems from "@/components/RecipeItems.vue";
+import RecipeForm from "@/components/RecipeForm.vue";
+import RecipeItem from "@/components/RecipeItem.vue";
 
 export default {
   name: 'Pouic',
 
   components: {
-    RecipeItems,
-    NewRecipe,
+    RecipeItem,
+    RecipeForm,
   },
 
   data: () => ({
-    recipes: [],
+    recipes: JSON.parse(localStorage.getItem('recipeAppData')) || '[]',
     displayForm: false,
   }),
-  watch: {},
-  mounted() {
+  watch: {
+    recipes: {
+      handler(recipes) {
+        localStorage.setItem('recipeAppData', JSON.stringify(recipes))
+      },
+      deep: true
+    }
   },
+  mounted() {},
   computed: {},
   methods: {
     addRecipe() {
@@ -29,6 +35,13 @@ export default {
     createRecipe(recipe) {
       this.recipes.push(recipe)
       this.displayForm = false
+    },
+    deleteRecipe(recipe) {
+      let index = this.recipes.indexOf(recipe)
+      this.recipes.splice(index)
+    },
+    editRecipe() {
+
     }
   }
 }
@@ -42,15 +55,19 @@ export default {
     </header>
     <main class="main">
       <button v-show="!displayForm" @click="addRecipe">Add Recipe</button>
-      <NewRecipe
+      <RecipeForm
           v-show="displayForm"
           @cancelCreate="cancelCreate"
           @saveRecipe="createRecipe"
       />
       <ul>
-        <RecipeItems
-          :recipes="recipes"
-        />
+        <li v-for="recipe in recipes" :key="recipe.id">
+          <RecipeItem
+              :recipe="recipe"
+              @editRecipe="editRecipe"
+              @deleteRecipe="deleteRecipe"
+          />
+        </li>
       </ul>
     </main>
     <footer class="footer"></footer>

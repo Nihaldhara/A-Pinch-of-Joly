@@ -1,17 +1,17 @@
 <script>
 export default {
-  name: 'NewRecipe',
+  name: 'RecipeForm',
 
   props: [],
 
   emits: ['cancelCreate', 'saveRecipe'],
 
   data: () => ({
-    id: null,
-    title: null,
-    ingredients: null,
-    time: null,
-    instructions: null,
+    id: '',
+    title: '',
+    ingredients: '',
+    time: '',
+    instructions: '',
   }),
   watch: {},
   mounted() {
@@ -40,7 +40,7 @@ export default {
 
       this.clearForm()
       this.$emit('saveRecipe', recipe)
-    }
+    },
   }
 }
 </script>
