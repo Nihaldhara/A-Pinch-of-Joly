@@ -1,30 +1,35 @@
 <script>
 
+import NewRecipe from "@/NewRecipe.vue";
+import RecipeItems from "@/components/RecipeItems.vue";
+
 export default {
   name: 'Pouic',
 
+  components: {
+    RecipeItems,
+    NewRecipe,
+  },
+
   data: () => ({
-    recipes: []
+    recipes: [],
+    displayForm: false,
   }),
   watch: {},
   mounted() {
   },
   computed: {},
   methods: {
-    addRecipe(event) {
-      const value = event.target.value.trim();
-
-      if (!value) {
-        return;
-      }
-
-      this.recipes.push({
-        id: Date.now(),
-        title: value,
-      });
-
-      event.target.value = ''
+    addRecipe() {
+      this.displayForm = true
     },
+    cancelCreate() {
+      this.displayForm = false
+    },
+    createRecipe(recipe) {
+      this.recipes.push(recipe)
+      this.displayForm = false
+    }
   }
 }
 
@@ -36,11 +41,16 @@ export default {
       <h1>Recipes</h1>
     </header>
     <main class="main">
-      <input autofocus class="new-todo" placeholder="New Recipe" @keyup.enter="addRecipe">
+      <button v-show="!displayForm" @click="addRecipe">Add Recipe</button>
+      <NewRecipe
+          v-show="displayForm"
+          @cancelCreate="cancelCreate"
+          @saveRecipe="createRecipe"
+      />
       <ul>
-        <li v-for="recipe in recipes" :key="recipe.id">
-          <div>{{recipe.title}}</div>
-        </li>
+        <RecipeItems
+          :recipes="recipes"
+        />
       </ul>
     </main>
     <footer class="footer"></footer>
