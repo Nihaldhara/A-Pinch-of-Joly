@@ -23,7 +23,8 @@ export default {
       deep: true
     }
   },
-  mounted() {},
+  mounted() {
+  },
   computed: {},
   methods: {
     addRecipe() {
@@ -54,13 +55,15 @@ export default {
       <h1>Recipes</h1>
     </header>
     <main class="main">
-      <button v-show="!displayForm" @click="addRecipe">Add Recipe</button>
-      <RecipeForm
-          v-show="displayForm"
-          @cancelCreate="cancelCreate"
-          @saveRecipe="createRecipe"
-      />
-      <ul>
+      <div class="create">
+        <button v-if="!displayForm" @click="addRecipe">Add Recipe</button>
+        <RecipeForm
+            v-if="displayForm"
+            @cancelCreate="cancelCreate"
+            @saveRecipe="createRecipe"
+        />
+      </div>
+      <ul class="recipes">
         <li v-for="recipe in recipes" :key="recipe.id">
           <RecipeItem
               :recipe="recipe"
@@ -77,9 +80,12 @@ export default {
 <style scoped>
 .app {
   display: grid;
-  min-height: 100dvh;
-  min-width: 100dvh;
-  grid-template-rows: 25% 60% 15%;
+  height: 100dvh;
+  width: 100dvh;
+  grid-template-rows: 35% auto 15%;
+  font-family: "Sansation", sans-serif;
+  font-weight: 400;
+  font-style: normal;
   grid-template-areas:
     "header"
     "main"
@@ -92,12 +98,38 @@ export default {
 
 .app-name h1 {
   text-align: center;
-  font-size: 100px;
+  font-size: 200px;
   color: darkorange;
+  font-family: "Fascinate", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .main {
+  display: grid;
   grid-area: main;
+  grid-template-areas:
+    "create"
+    "recipes";
+}
+
+.create {
+  display: grid;
+  grid-area: create;
+}
+
+.create button {
+  height: 40px;
+  width: 30%;
+  justify-self: center;
+
+}
+
+.recipes {
+  grid-area: recipes;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .footer {
