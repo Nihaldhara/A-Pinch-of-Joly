@@ -8,6 +8,7 @@
     margin: 0 auto;
     padding: 2rem;
     font-weight: normal;
+    font-size: 14px;
 }
 button {
     display: inline-block;
@@ -34,8 +35,10 @@ input {
     width: 100%;
     height: 30px;
     padding: 15px 0;
-    margin: 5px;
-    font-size: 18px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-family: "Sansation", sans-serif;
     color: #fff;
 }
 

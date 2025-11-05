@@ -10,26 +10,25 @@ export default {
 
   props: ['recipe'],
 
-  emits: ['deleteRecipe', 'editRecipe'],
+  emits: ['viewRecipe'],
 
-  data: () => ({}),
+  data: () => ({
+    editMode: false
+  }),
   watch: {},
   mounted() {
   },
   computed: {},
   methods: {
-    deleteRecipe(recipe) {
-      this.$emit('deleteRecipe', recipe)
-    },
-    editRecipe(recipe) {
-      this.$emit('editRecipe', recipe)
+    viewRecipe(recipe) {
+      this.$emit('viewRecipe', recipe)
     }
   },
 }
 </script>
 
 <template>
-  <div class="recipe">
+  <div class="recipe" @click="viewRecipe(recipe)">
     <div class="title">{{ recipe.title }}:</div>
     <div>Ingredients:</div>
     <ul class="ingredients">
@@ -38,13 +37,7 @@ export default {
     <div>Time to make:</div>
     <div class="time-row">
       <timer class="icon"/>
-      <div class="time">{{ recipe.time }}</div>
-    </div>
-    <div>Instructions:</div>
-    <div class="instructions">{{ recipe.instructions }}</div>
-    <div class="validation">
-      <button class="edit" @click="editRecipe(recipe)">Edit</button>
-      <button class="delete" @click="deleteRecipe(recipe)">Delete</button>
+      <div class="time">{{ recipe.time }} minutes</div>
     </div>
   </div>
 </template>
@@ -54,7 +47,12 @@ export default {
   display: grid;
   background-color: #33312f;
   padding: 12px;
+  margin: 12px;
   border-radius: 12px;
+}
+
+.recipe:hover {
+  box-shadow: 0 0 30px #121111;
 }
 
 .title {
@@ -63,10 +61,11 @@ export default {
 }
 
 .ingredients {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-  padding-left: 10px;
-  grid-column-gap: 10px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding: 0 0 0 10px;
+  align-items: center;
 }
 
 .ingredient {
@@ -75,8 +74,7 @@ export default {
   background-color: #515151;
   border-radius: 24px;
   border-style: solid;
-  border-color: #3a3a3a;
-  border-width: 2px;
+  border-width: 0;
   box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px, rgba(0, 0, 0, .14) 0 6px 10px 0, rgba(0, 0, 0, .12) 0 1px 18px 0;
   box-sizing: border-box;
   color: rgba(246, 246, 246, 0.96);
@@ -89,6 +87,7 @@ export default {
   justify-content: center;
   line-height: normal;
   max-width: 100%;
+  width: fit-content;
   overflow: visible;
   padding: 2px 24px;
   position: relative;
@@ -98,7 +97,6 @@ export default {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  width: auto;
   will-change: transform, opacity;
   z-index: 0;
 }
@@ -122,22 +120,5 @@ export default {
 .time {
   grid-area: input;
   padding-left: 10px;
-}
-
-.instructions {
-  padding-left: 10px;
-}
-
-.validation {
-  display: grid;
-  grid-template-areas: "edit delete";
-}
-
-.edit {
-  grid-area: edit;
-}
-
-.delete {
-  grid-area: delete;
 }
 </style>

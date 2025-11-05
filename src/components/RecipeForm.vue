@@ -56,7 +56,7 @@ export default {
 </script>
 
 <template>
-  <div class="add-recipe">
+  <div class="form">
     <input autofocus placeholder="Recipe Title" v-model="title">
     <div class="ingredients">
       <input class="ingredient-input" placeholder="Recipe Ingredients" @keyup.enter="addIngredient">
@@ -66,7 +66,10 @@ export default {
         </ul>
       </div>
     </div>
-    <input placeholder="Time to complete recipe" v-model="time">
+    <div class="time-section">
+      <input class="time-input" placeholder="Time" v-model="time" type="number">
+      <div class="time-scale">minutes</div>
+    </div>
     <input placeholder="Recipe Instructions" v-model="instructions">
     <div class="validation">
       <button class="save" @click="saveRecipe">Save</button>
@@ -76,8 +79,10 @@ export default {
 </template>
 
 <style scoped>
-.add-recipe {
+.form {
   display: grid;
+  padding: 10px;
+  margin: 10px 10px 40px;
 }
 
 .ingredients {
@@ -97,10 +102,11 @@ export default {
 }
 
 .ingredients-list ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-  padding-left: 10px;
-  grid-column-gap: 10px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding: 0 0 0 10px;
+  align-items: center;
 }
 
 .ingredient {
@@ -109,8 +115,7 @@ export default {
   background-color: #515151;
   border-radius: 24px;
   border-style: solid;
-  border-color: #3a3a3a;
-  border-width: 2px;
+  border-width: 0;
   box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px, rgba(0, 0, 0, .14) 0 6px 10px 0, rgba(0, 0, 0, .12) 0 1px 18px 0;
   box-sizing: border-box;
   color: rgba(246, 246, 246, 0.96);
@@ -142,10 +147,27 @@ export default {
   color: rgba(246, 246, 246, 0.96);
 }
 
+.time-section {
+  display: grid;
+  grid-template-areas: "input scale";
+  grid-template-columns: 50px auto;
+  align-items: end;
+}
+
+.time-input {
+  grid-area: input;
+}
+
+.time-scale {
+  grid-area: scale;
+  margin-bottom: 10px;
+}
+
 .validation {
   display: grid;
   grid-template-areas:
     "save cancel";
+  margin-top: 10px;
 }
 
 .save {
